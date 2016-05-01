@@ -8,8 +8,8 @@ Some information about you!
 
 ### More Information
 
-A place to include any other types of information that you'd like to include about yourself.
+Estudar, é o que há.
 
-### Contact me
+### Contato
 
-[email@domain.com](mailto:email@domain.com)
+[lukthar@gmail.com](mailto:lukthar@gmail.com)
