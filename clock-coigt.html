@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relógio Digital</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #1a202c;
+            color: white;
+        }
+        
+        .clock-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            background-color: #2d3748;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .time {
+            font-family: monospace;
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .date {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        button {
+            padding: 0.5rem 1rem;
+            background-color: #3182ce;
+            color: white;
+            border: none;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        button:hover {
+            background-color: #2c5282;
+        }
+        
+        .footer {
+            margin-top: 1.5rem;
+            color: #a0aec0;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="clock-container">
+        <div id="time" class="time">00:00:00</div>
+        <div id="date" class="date">Carregando data...</div>
+        <button id="toggle-format">Mudar para 12h</button>
+        <div class="footer">Inspirado por time.is</div>
+    </div>
+
+    <script>
+        let is24Hour = true;
+        
+        function updateClock() {
+            const now = new Date();
+            const timeElement = document.getElementById('time');
+            const dateElement = document.getElementById('date');
+            
+            // Formato da hora
+            let hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            
+            if (!is24Hour) {
+                hours = hours % 12;
+                hours = hours ? hours : 12; // 0 deve ser 12 no formato de 12 horas
+            }
+            
+            const hoursStr = String(hours).padStart(2, '0');
+            
+            timeElement.textContent = is24Hour 
+                ? `${hoursStr}:${minutes}:${seconds}` 
+                : `${hoursStr}:${minutes}:${seconds} ${ampm}`;
+            
+            // Formato da data
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            dateElement.textContent = now.toLocaleDateString('pt-BR', options);
+        }
+        
+        function toggleTimeFormat() {
+            is24Hour = !is24Hour;
+            document.getElementById('toggle-format').textContent = 
+                is24Hour ? 'Mudar para 12h' : 'Mudar para 24h';
+            updateClock();
+        }
+        
+        // Inicializa o relógio
+        document.getElementById('toggle-format').addEventListener('click', toggleTimeFormat);
+        
+        // Atualiza o relógio a cada segundo
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+</html>
